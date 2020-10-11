@@ -1833,7 +1833,8 @@ if (reversed == null) { reversed = false; }
 
 	this._renderFirstFrame();
 
-}).prototype = getMCSymbolPrototype(lib.HITlogo, new cjs.Rectangle(0,0,120,79), null);
+}).prototype = p = new cjs.MovieClip();
+p.nominalBounds = new cjs.Rectangle(0,0,120,79);
 
 
 (lib.roseMain = function(mode,startPosition,loop,reversed) {
@@ -4212,6 +4213,7 @@ if (reversed == null) { reversed = false; }
 	this.HITlogo = new lib.HITlogo();
 	this.HITlogo.name = "HITlogo";
 	this.HITlogo.setTransform(166.7,592.05,1,1,0,0,0,60,39.5);
+	new cjs.ButtonHelper(this.HITlogo, 0, 1, 1);
 
 	this.instance_11 = new lib.bgFlower("synched",0);
 	this.instance_11.setTransform(453.7,393,1,1,0,0,0,305.3,251.1);
@@ -4514,22 +4516,30 @@ if (reversed == null) { reversed = false; }
 		
 		
 		// פונקציית יציאת עכבר מהפרחים
+		//פונקצית ריסט למסננים ביציאה מהפרחים
+		function outflowers() {
+			self.Fall.gotoAndStop(0);
+			self.Winter.gotoAndStop(0);
+			self.Summer.gotoAndStop(0);
+			self.Spring.gotoAndStop(0);
+			self.FullSun.gotoAndStop(0);
+			self.MidSun.gotoAndStop(0);
+			self.NoSun.gotoAndStop(0);
+		}
+		
 		function outIris() {
 			self.Iris.gotoAndStop(0);
-			SeasonsCheck();
-			SunCheck();
+			outflowers();
 		}
 		
 		function outPansyAT() {
 			self.PansyAT.gotoAndStop(0);
-			SeasonsCheck();
-			SunCheck();
+			outflowers();
 		}
 		
 		function outLavender() {
 			self.Lavender.gotoAndStop(0);
-			SeasonsCheck();
-			SunCheck();
+			outflowers();
 		}
 		
 		function outRose() {
@@ -4542,47 +4552,38 @@ if (reversed == null) { reversed = false; }
 		
 		function outCarnation() {
 			self.Carnation.gotoAndStop(0);
+			outflowers();
 		}
 		
 		function outDahlia() {
 			self.Dahlia.gotoAndStop(0);
-			SeasonsCheck();
-			SunCheck();
+			outflowers();
 		}
 		
 		function outGeranium() {
 			self.Geranium.gotoAndStop(0);
-			if (Seasons == "clear" && Sun == "clear") {
-				resetFlowers();
-			} else {
-				SunCheck();
-				SeasonsCheck();
-			}
+			outflowers();
 		}
 		
 		
 		function outJasmine() {
 			self.Jasmine.gotoAndStop(0);
-			SeasonsCheck();
-			SunCheck();
+			outflowers();
 		}
 		
 		function outLilach() {
 			self.Lilach.gotoAndStop(0);
-			SeasonsCheck();
-			SunCheck();
+			outflowers();
 		}
 		
 		function outHyacinth() {
 			self.Hyacinth.gotoAndStop(0);
-			SeasonsCheck();
-			SunCheck();
+			outflowers();
 		}
 		
 		function outMallisa() {
 			self.Mallisa.gotoAndStop(0);
-			SeasonsCheck();
-			SunCheck();
+			outflowers();
 		}
 		
 		//הפחתת עוצמת הפרחים
@@ -4644,6 +4645,44 @@ if (reversed == null) { reversed = false; }
 		function alphaMallisa() {
 			self.Mallisa.gotoAndStop(0);
 			self.Mallisa.alpha = 0.6;
+		}
+		
+		function resetAll() {
+			outFall();
+			outWinter();
+			outSpring();
+			outSummer();
+			outFullSun();
+			outMidSun();
+			outNoSun();
+			resetFlowers();
+			Sun = "clear";
+			Season = "clear";
+			self.Iris.addEventListener("mouseover", hoverIris);
+			self.PansyAT.addEventListener("mouseover", hoverPansyAT);
+			self.Lavender.addEventListener("mouseover", hoverLavender);
+			self.Rose.addEventListener("mouseover", hoverRose);
+			self.Aureum.addEventListener("mouseover", hoverAureum);
+			self.Carnation.addEventListener("mouseover", hoverCarnation);
+			self.Dahlia.addEventListener("mouseover", hoverDahlia);
+			self.Geranium.addEventListener("mouseover", hoverGeranium);
+			self.Jasmine.addEventListener("mouseover", hoverJasmine);
+			self.Lilach.addEventListener("mouseover", hoverLilach);
+			self.Hyacinth.addEventListener("mouseover", hoverHyacinth);
+			self.Mallisa.addEventListener("mouseover", hoverMallisa);
+			//מאזיני יציאה ממעבר עכבר
+			self.Iris.addEventListener("mouseout", outIris);
+			self.PansyAT.addEventListener("mouseout", outPansyAT);
+			self.Lavender.addEventListener("mouseout", outLavender);
+			self.Rose.addEventListener("mouseout", outRose);
+			self.Aureum.addEventListener("mouseout", outAureum);
+			self.Carnation.addEventListener("mouseout", outCarnation);
+			self.Dahlia.addEventListener("mouseout", outDahlia);
+			self.Geranium.addEventListener("mouseout", outGeranium);
+			self.Jasmine.addEventListener("mouseout", outJasmine);
+			self.Lilach.addEventListener("mouseout", outLilach);
+			self.Hyacinth.addEventListener("mouseout", outHyacinth);
+			self.Mallisa.addEventListener("mouseout", outMallisa);
 		}
 		
 		//החזרת כל הפרחים למצב התחלתי
@@ -4938,46 +4977,24 @@ if (reversed == null) { reversed = false; }
 		//פונקציית הסתרת כרטיסיות ראשיות
 		function closebtn() {
 			self.mainCards.visible = false;
-			SeasonsReclick();
-			SunReclick();
-			if (Seasons == "clear" && Sun == "clear") {
-				resetFlowers();
-			} else {
-				SunCheck();
-				SeasonsCheck();
-			}
-		}
-		
-		//החזרת פעילות מסננים לאחר סגירת כטיסייה
-		function SeasonsReclick() {
-			if (Seasons == "Summer") {
-				self.Summer.mouseEnabled = true;
-			} else if (Seasons == "Winter") {
-				self.Winter.mouseEnabled = true;
-			} else if (Seasons == "Fall") {
-				self.Fall.mouseEnabled = true;
-			} else if (Seasons == "Spring") {
-				self.Spring.mouseEnabled = true;
-			} else {
-				self.Fall.mouseEnabled = true;
-				self.Winter.mouseEnabled = true;
-				self.Spring.mouseEnabled = true;
-				self.Summer.mouseEnabled = true;
-			}
-		}
-		
-		function SunReclick() {
-			if (Sun == "MidSun") {
-				self.MidSun.mouseEnabled = true;
-			} else if (Sun == "FullSun") {
-				self.FullSun.mouseEnabled = true;
-			} else if (Sun == "NoSun") {
-				self.NoSun.mouseEnabled = true;
-			} else {
-				self.FullSun.mouseEnabled = true;
-				self.MidSun.mouseEnabled = true;
-				self.NoSun.mouseEnabled = true;
-			}
+			reableMouseEvents();
+			resetAll();
+			Sun = "clear";
+			Seasons = "clear";
+			self.Fall.addEventListener("mouseover", hoverFall);
+			self.Fall.addEventListener("mouseout", outFall);
+			self.Winter.addEventListener("mouseover", hoverWinter);
+			self.Winter.addEventListener("mouseout", outWinter);
+			self.Spring.addEventListener("mouseover", hoverSpring);
+			self.Spring.addEventListener("mouseout", outSpring);
+			self.Summer.addEventListener("mouseover", hoverSummer);
+			self.Summer.addEventListener("mouseout", outSummer);
+			self.FullSun.addEventListener("mouseover", hoverFullSun);
+			self.FullSun.addEventListener("mouseout", outFullSun);
+			self.MidSun.addEventListener("mouseover", hoverMidSun);
+			self.MidSun.addEventListener("mouseout", outMidSun);
+			self.NoSun.addEventListener("mouseover", hoverNoSun);
+			self.NoSun.addEventListener("mouseout", outNoSun);
 		}
 		
 		//הענקת מאזין לכפתורי סגירת כרטיסיה משנה
@@ -5019,6 +5036,12 @@ if (reversed == null) { reversed = false; }
 		self.NoSun.addEventListener("mouseover", hoverNoSun);
 		self.NoSun.addEventListener("mouseout", outNoSun);
 		
+		self.Annual.addEventListener("mouseover", hoverAnnual);
+		self.Annual.addEventListener("mouseout", outAnnual);
+		
+		self.Polycycle.addEventListener("mouseover", hoverPolycycle);
+		self.Polycycle.addEventListener("mouseout", outPolycycle);
+		
 		//הגדרת מאזין לקליק  במסננים
 		self.Fall.addEventListener("click", clickFall);
 		self.Winter.addEventListener("click", clickWinter);
@@ -5031,6 +5054,22 @@ if (reversed == null) { reversed = false; }
 		
 		//הגדרת מצב פרחים בהתאם למסנן נבחר
 		//מצב מעבר עכבר
+		
+		function hoverAnnual() {
+			self.Annual.cursor = "not-allowed";
+		}
+		function outAnnual() {
+			self.Annual.cursor = "auto";
+		}
+		
+		function hoverPolycycle() {
+			self.Polycycle.cursor = "not-allowed";
+		}
+		
+		function outPolycycle() {
+			self.Polycycle.cursor = "auto";
+		}
+		
 		
 		function filterFallHL() {
 			HLAllFlowers();
@@ -5366,6 +5405,7 @@ if (reversed == null) { reversed = false; }
 		
 		function hoverFall() {
 			self.Fall.gotoAndStop(1);
+			self.Fall.cursor = "pointer";
 			if (Sun == "clear") {
 				filterFallHL();
 			} else {
@@ -5406,6 +5446,7 @@ if (reversed == null) { reversed = false; }
 		
 		function hoverWinter() {
 			self.Winter.gotoAndStop(1);
+			self.Winter.cursor = "pointer";
 			if (Sun == "clear") {
 				filterWinterHL();
 			} else {
@@ -5436,6 +5477,7 @@ if (reversed == null) { reversed = false; }
 		
 		function hoverSpring() {
 			self.Spring.gotoAndStop(1);
+			self.Spring.cursor = "pointer";
 			if (Sun == "clear") {
 				filterSpringHL();
 			} else {
@@ -5466,6 +5508,7 @@ if (reversed == null) { reversed = false; }
 		
 		function hoverSummer() {
 			self.Summer.gotoAndStop(1);
+			self.Summer.cursor = "pointer";
 			if (Sun == "clear") {
 				filterSummerHL();
 			} else {
@@ -5497,6 +5540,7 @@ if (reversed == null) { reversed = false; }
 		
 		function hoverFullSun() {
 			self.FullSun.gotoAndStop(1);
+			self.FullSun.cursor = "pointer";
 			if (Seasons == "clear") {
 				filterFullSunHL();
 			} else {
@@ -5537,6 +5581,7 @@ if (reversed == null) { reversed = false; }
 		
 		function hoverMidSun() {
 			self.MidSun.gotoAndStop(1);
+			self.MidSun.cursor = "pointer";
 			if (Seasons == "clear") {
 				filterMidSunHL();
 			} else {
@@ -5578,6 +5623,7 @@ if (reversed == null) { reversed = false; }
 		
 		function hoverNoSun() {
 			self.NoSun.gotoAndStop(1);
+			self.NoSun.cursor = "pointer";
 			if (Seasons == "clear") {
 				filterNoSunHL();
 			} else {
@@ -5749,80 +5795,16 @@ if (reversed == null) { reversed = false; }
 		
 		//יציאה מהסננים
 		function outFilters() {
-			outFall;
-			outWinter;
-			outSpring;
-			outSummer
+			outFall();
+			outWinter();
+			outSpring();
+			outSummer();
 			outFullSun();
 			outMidSun();
 			outNoSun();
-		
 		}
-		
-		//בדיקה של סטטוס עונה ושמש ביציאה מכל פרח
-		function SeasonsCheck() {
-			if (Seasons == "Summer") {
-				self.Summer.gotoAndStop(2);
-				filterfilterSummerChecked();
-				self.Fall.mouseEnabled = false;
-				self.Spring.mouseEnabled = false;
-				self.Winter.mouseEnabled = false;
-		
-			} else if (Seasons == "Winter") {
-				self.Winter.gotoAndStop(2);
-				filterfilterWinterChecked();
-				self.Fall.mouseEnabled = false;
-				self.Spring.mouseEnabled = false;
-				self.Summer.mouseEnabled = false;
-		
-			} else if (Seasons == "Fall") {
-				self.Fall.gotoAndStop(2);
-				filterfilterFallChecked();
-				self.Winter.mouseEnabled = false;
-				self.Spring.mouseEnabled = false;
-				self.Winter.mouseEnabled = false;
-				
-			} else if (Seasons == "Spring") {
-				self.Spring.gotoAndStop(2);
-				filterfilterSpringChecked();
-				self.Fall.mouseEnabled = false;
-				self.Summer.mouseEnabled = false;
-				self.Winter.mouseEnabled = false;
-			} else {
-				outSummer();
-				outFall();
-				outSpring();
-				outWinter();
-			}
-		}
-		
-		
-		function SunCheck() {
-			if (Sun == "MidSun") {
-				self.MidSun.gotoAndStop(2);
-				filterfilterMidSunChecked();
-				self.FullSun.mouseEnabled = false;
-				self.NoSun.mouseEnabled = false;
-			} else if (Sun == "FullSun") {
-				self.FullSun.gotoAndStop(2);
-				filterfilterFullSunChecked();
-				self.MidSun.mouseEnabled = false;
-				self.NoSun.mouseEnabled = false;
-			} else if (Sun == "NoSun") {
-				self.NoSun.gotoAndStop(2);
-				filterfilterNoSunChecked();
-				self.MidSun.mouseEnabled = false;
-				self.FullSun.mouseEnabled = false;
-			} else {
-				outFullSun();
-				outMidSun();
-				outNoSun();
-			}
-		}
-		
 		
 		//פונקציות קליק למסננים
-		
 		function clickFall() { //בדיקת מצב מהסנן (מסומן או לא מסומן
 			if (Seasons == "clear") { //במידה והמסנן לא מסומן -כלומר המשתמש מעוניין לקבע סינון
 				self.Fall.gotoAndStop(2);
@@ -5852,7 +5834,7 @@ if (reversed == null) { reversed = false; }
 				self.Summer.mouseEnabled = true;
 				//עדיין יש לבצע בדיקה לגבי מסנן שני
 				if (Sun == "clear") {
-					resetFlowers();
+					resetAll();
 					reableMouseEvents();
 				} else if (Sun == "FullSun") {
 					filterFullSunChecked();
@@ -5893,7 +5875,7 @@ if (reversed == null) { reversed = false; }
 				self.Summer.mouseEnabled = true;
 				//עדיין יש לבצע בדיקה לגבי מסנן שני
 				if (Sun == "clear") {
-					resetFlowers();
+					resetAll();
 					reableMouseEvents();
 				} else if (Sun == "FullSun") {
 					filterFullSunChecked();
@@ -5934,7 +5916,7 @@ if (reversed == null) { reversed = false; }
 				self.Summer.mouseEnabled = true;
 				//עדיין יש לבצע בדיקה לגבי מסנן שני
 				if (Sun == "clear") {
-					resetFlowers();
+					resetAll();
 					reableMouseEvents();
 				} else if (Sun == "FullSun") {
 					filterFullSunChecked();
@@ -5975,7 +5957,7 @@ if (reversed == null) { reversed = false; }
 				self.Spring.mouseEnabled = true;
 				//עדיין יש לבצע בדיקה לגבי מסנן שני
 				if (Sun == "clear") {
-					resetFlowers();
+					resetAll();
 					reableMouseEvents();
 				} else if (Sun == "FullSun") {
 					filterFullSunChecked();
@@ -6020,7 +6002,7 @@ if (reversed == null) { reversed = false; }
 				//עדיין יש לבצע בדיקה לגבי מסנן שני
 				if (Seasons == "clear") {
 					reableMouseEvents();
-					resetFlowers();
+					resetAll();
 				} else if (Seasons == "Fall") {
 					filterFallChecked();
 				} else if (Seasons == "Winter") {
@@ -6064,7 +6046,7 @@ if (reversed == null) { reversed = false; }
 				//עדיין יש לבצע בדיקה לגבי מסנן שני
 				if (Seasons == "clear") {
 					reableMouseEvents();
-					resetFlowers();
+					resetAll();
 				} else if (Seasons == "Fall") {
 					filterFallChecked();
 				} else if (Seasons == "Winter") {
@@ -6108,7 +6090,7 @@ if (reversed == null) { reversed = false; }
 				//עדיין יש לבצע בדיקה לגבי מסנן שני
 				if (Seasons == "clear") {
 					reableMouseEvents();
-					resetFlowers();
+					resetAll();
 				} else if (Seasons == "Fall") {
 					filterFallChecked();
 				} else if (Seasons == "Winter") {
@@ -6415,31 +6397,31 @@ lib.properties = {
 	opacity: 1.00,
 	webfonts: {},
 	manifest: [
-		{src:"images/CachedBmp_87.png?1602427998703", id:"CachedBmp_87"},
-		{src:"images/CachedBmp_85.png?1602427998703", id:"CachedBmp_85"},
-		{src:"images/CachedBmp_83.png?1602427998703", id:"CachedBmp_83"},
-		{src:"images/CachedBmp_81.png?1602427998703", id:"CachedBmp_81"},
-		{src:"images/CachedBmp_79.png?1602427998703", id:"CachedBmp_79"},
-		{src:"images/CachedBmp_77.png?1602427998703", id:"CachedBmp_77"},
-		{src:"images/CachedBmp_75.png?1602427998703", id:"CachedBmp_75"},
-		{src:"images/CachedBmp_73.png?1602427998704", id:"CachedBmp_73"},
-		{src:"images/CachedBmp_71.png?1602427998704", id:"CachedBmp_71"},
-		{src:"images/CachedBmp_69.png?1602427998704", id:"CachedBmp_69"},
-		{src:"images/CachedBmp_86.png?1602427998704", id:"CachedBmp_86"},
-		{src:"images/CachedBmp_30.png?1602427998704", id:"CachedBmp_30"},
-		{src:"images/CachedBmp_29.png?1602427998704", id:"CachedBmp_29"},
-		{src:"images/CachedBmp_27.png?1602427998704", id:"CachedBmp_27"},
-		{src:"images/CachedBmp_25.png?1602427998704", id:"CachedBmp_25"},
-		{src:"images/CachedBmp_23.png?1602427998704", id:"CachedBmp_23"},
-		{src:"images/CachedBmp_21.png?1602427998704", id:"CachedBmp_21"},
-		{src:"images/CachedBmp_19.png?1602427998704", id:"CachedBmp_19"},
-		{src:"images/CachedBmp_17.png?1602427998704", id:"CachedBmp_17"},
-		{src:"images/CachedBmp_15.png?1602427998704", id:"CachedBmp_15"},
-		{src:"images/CachedBmp_13.png?1602427998704", id:"CachedBmp_13"},
-		{src:"images/CachedBmp_11.png?1602427998704", id:"CachedBmp_11"},
-		{src:"images/CachedBmp_9.png?1602427998704", id:"CachedBmp_9"},
-		{src:"images/FlowerAtHome_atlas_1.png?1602427997908", id:"FlowerAtHome_atlas_1"},
-		{src:"images/FlowerAtHome_atlas_2.png?1602427997910", id:"FlowerAtHome_atlas_2"}
+		{src:"images/CachedBmp_87.png?1602441266424", id:"CachedBmp_87"},
+		{src:"images/CachedBmp_85.png?1602441266424", id:"CachedBmp_85"},
+		{src:"images/CachedBmp_83.png?1602441266424", id:"CachedBmp_83"},
+		{src:"images/CachedBmp_81.png?1602441266424", id:"CachedBmp_81"},
+		{src:"images/CachedBmp_79.png?1602441266424", id:"CachedBmp_79"},
+		{src:"images/CachedBmp_77.png?1602441266424", id:"CachedBmp_77"},
+		{src:"images/CachedBmp_75.png?1602441266424", id:"CachedBmp_75"},
+		{src:"images/CachedBmp_73.png?1602441266424", id:"CachedBmp_73"},
+		{src:"images/CachedBmp_71.png?1602441266424", id:"CachedBmp_71"},
+		{src:"images/CachedBmp_69.png?1602441266424", id:"CachedBmp_69"},
+		{src:"images/CachedBmp_86.png?1602441266424", id:"CachedBmp_86"},
+		{src:"images/CachedBmp_30.png?1602441266424", id:"CachedBmp_30"},
+		{src:"images/CachedBmp_29.png?1602441266424", id:"CachedBmp_29"},
+		{src:"images/CachedBmp_27.png?1602441266424", id:"CachedBmp_27"},
+		{src:"images/CachedBmp_25.png?1602441266424", id:"CachedBmp_25"},
+		{src:"images/CachedBmp_23.png?1602441266424", id:"CachedBmp_23"},
+		{src:"images/CachedBmp_21.png?1602441266424", id:"CachedBmp_21"},
+		{src:"images/CachedBmp_19.png?1602441266424", id:"CachedBmp_19"},
+		{src:"images/CachedBmp_17.png?1602441266424", id:"CachedBmp_17"},
+		{src:"images/CachedBmp_15.png?1602441266424", id:"CachedBmp_15"},
+		{src:"images/CachedBmp_13.png?1602441266424", id:"CachedBmp_13"},
+		{src:"images/CachedBmp_11.png?1602441266424", id:"CachedBmp_11"},
+		{src:"images/CachedBmp_9.png?1602441266424", id:"CachedBmp_9"},
+		{src:"images/FlowerAtHome_atlas_1.png?1602441265747", id:"FlowerAtHome_atlas_1"},
+		{src:"images/FlowerAtHome_atlas_2.png?1602441265751", id:"FlowerAtHome_atlas_2"}
 	],
 	preloads: []
 };
